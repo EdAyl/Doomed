@@ -10,10 +10,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script>
 
-let url = "http://localhost:8081/revpro1/name";
-
 function sendAjaxGet(url, func) {
-	
+	let url = "http://localhost:8081/revpro1/name";
 	
 	let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
 	xhr.onreadystatechange = function() {
@@ -29,8 +27,7 @@ sendAjaxGet(url, display);
 function display(xhr) {
 	name = JSON.parse(xhr.responseText);
 	//console.log(requests);
-	document.getElementById("name").innerHTML = `${name}`;
-}
+	nameArr = name.accountid;
 </script>
 </head>
 <body>

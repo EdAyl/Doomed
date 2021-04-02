@@ -113,9 +113,9 @@
     function display(xhr) {
     	//console.log(xhr.responseText);
     	requests = JSON.parse(xhr.responseText);
-    	console.log(requests);
+    	//console.log(requests);
     	requestArr = requests.reimbursements;
-    	console.log(requestArr);
+    	//console.log(requestArr);
     	let table = document.getElementById("reimbursementTable");
     	table.removeChild(document.getElementById("reimbursementTableBody"));
     	let newBody = document.createElement("tbody");

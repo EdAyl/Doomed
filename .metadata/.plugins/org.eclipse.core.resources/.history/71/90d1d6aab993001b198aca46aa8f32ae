@@ -29,7 +29,9 @@ sendAjaxGet(url, display);
 function display(xhr) {
 	name = JSON.parse(xhr.responseText);
 	//console.log(requests);
-	document.getElementById("name").innerHTML = `${name}`;
+	nameArr = name.accountid;
+	console.log(nameArr);
+	document.getElementById("name").innerHTML = `${nameArr[i].fname} ${nameArr[i].lname}`;
 }
 </script>
 </head>

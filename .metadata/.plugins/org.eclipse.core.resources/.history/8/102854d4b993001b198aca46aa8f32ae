@@ -29,7 +29,11 @@ sendAjaxGet(url, display);
 function display(xhr) {
 	name = JSON.parse(xhr.responseText);
 	//console.log(requests);
-	document.getElementById("name").innerHTML = `${name}`;
+	nameArr = name.accountid;
+	console.log(nameArr);
+	for (i in requestArr) {
+	document.getElementById("name").innerHTML = `${nameArr[i].fname} ${nameArr[i].lname}`;
+	}
 }
 </script>
 </head>

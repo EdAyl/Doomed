@@ -122,6 +122,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>NameServlet</servlet-name>
-    <url-pattern>/name</url-pattern>
+    <url-pattern>/NameServlet</url-pattern>
   </servlet-mapping>
 </web-app>
