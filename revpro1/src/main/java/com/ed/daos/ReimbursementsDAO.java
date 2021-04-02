@@ -3,6 +3,7 @@ package com.ed.daos;
 import java.sql.Connection;
 import java.util.List;
 
+import com.ed.models.Employee;
 import com.ed.models.Reimbursements;
 
 public interface ReimbursementsDAO {
@@ -16,5 +17,5 @@ public interface ReimbursementsDAO {
 	List<Reimbursements> getPendingReimbursementsFromEmployeeID(int employeeID);
 	List<Reimbursements> getApprovedReimbursementsFromEmployeeID(int employeeID);
 	List<Reimbursements> getDeniedReimbursementsFromEmployeeID(int employeeID);
-	void addReimbursement(Reimbursements r);
+	void addReimbursement(Reimbursements r, Employee e);
 }

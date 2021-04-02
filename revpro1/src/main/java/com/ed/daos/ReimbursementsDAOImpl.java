@@ -175,21 +175,21 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 	}
 
 	@Override
-	public void addReimbursement(Reimbursements r) {
+	public void addReimbursement(Reimbursements r, Employee em) {
 		r.setReimbursementID(getNextID());
-		String sql = "INSERT INTO reimbursementrequests(reimbursementid, reason, amount, accountid, pending, approved, denied) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO reimbursements.reimbursementrequests(reimbursementid, reason, amount, accountid, pending, approved, denied) VALUES (?, ?, ?, ?, ?, ?, ?);";
 		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
 			System.out.println("inside add try");
 
 			ps.setInt(1,  r.getReimbursementID());
 			ps.setString(2,  r.getReason());
 			ps.setDouble(3, r.getAmount());
-			Employee em = new Employee();
 			int accountID = em.getAccountID();
-			ps.setInt(4,  accountID);
+			ps.setInt(4, accountID);
 			ps.setBoolean(5, r.isPending());
 			ps.setBoolean(6, r.isApproved());
 			ps.setBoolean(7,  r.isDenied());
+			System.out.println(ps);
 			ps.executeQuery();
 		}catch (SQLException e) {
 			log.error("SQL exception", e);

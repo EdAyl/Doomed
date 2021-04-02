@@ -49,7 +49,7 @@ public class SubmitReimbursementServlet extends HttpServlet {
 			r.setReason(reason);
 			Employee e = new EmployeeDAOImpl().getEmployeeFromID(User.getUserId());
 			r.setEmployee(e);
-			rd.addReimbursement(r);
+			rd.addReimbursement(r, e);
 			reqD = request.getRequestDispatcher("Reimbursements.html");
 		} else {
 			reqD = request.getRequestDispatcher("Login.html");

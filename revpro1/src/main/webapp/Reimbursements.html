@@ -44,16 +44,18 @@
 		<input type="checkbox" id="denied" name="requesttype">denied		
 				
 		<br>
-        <table id="requestTable" class="table table-striped table-dark">
+        <table id="reimbursementTable" class="table table-striped table-dark">
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
-		      <th scope="col">Status</th>
+		      <th scope="col">Pending</th>
+		      <th scope="col">Approved</th>
+		      <th scope="col">Denied</th>
 		      <th scope="col">Amount</th>
 		      <th scope="col">Reason</th>
 		    </tr>
 		  </thead>
-		  <tbody id="requestTableBody">
+		  <tbody id="reimbursementTableBody">
 		    <!--<th scope="row">1</th>-->
 		  </tbody>
 		</table>
@@ -71,7 +73,7 @@
     	}else if (deniedChecked && deniedChecked) {
     		url = "http://localhost:8081/revpro1/denied";
     	} else {
-    		url = "http://localhost:8081/revpro1/all";
+    		url = "http://localhost:8081/revpro1/allreimbursements";
     	}
     }
 
@@ -109,8 +111,11 @@
     sendAjaxGet(url, display);
 
     function display(xhr) {
+    	//console.log(xhr.responseText);
     	requests = JSON.parse(xhr.responseText);
-    	requestArr = requests.requests;
+    	console.log(requests);
+    	requestArr = requests.reimbursements;
+    	console.log(requestArr);
     	let table = document.getElementById("reimbursementTable");
     	table.removeChild(document.getElementById("reimbursementTableBody"));
     	let newBody = document.createElement("tbody");
@@ -121,10 +126,11 @@
     		
     		newRow.innerHTML = 
     			`<td>${requestArr[i].reimbursementID}</td>
-    			<td>${requestArr[i].isPending}</td>
-    			<td>${requestArr[i].isApproved}</td>
-    			<td>${requestArr[i].isDenied}</td> 
-    			<td>${requestArr[i].amount}</td>`;
+    			<td>${requestArr[i].pending}</td>
+    			<td>${requestArr[i].approved}</td>
+    			<td>${requestArr[i].denied}</td> 
+    			<td>${requestArr[i].amount}</td>
+    			<td>${requestArr[i].reason}</td>`;
     		newBody.appendChild(newRow);
     	}
     }</script>

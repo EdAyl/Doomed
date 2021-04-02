@@ -46,7 +46,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PendingReimbursementsServlet</servlet-name>
-    <url-pattern>/pendingreimbursements</url-pattern>
+    <url-pattern>/pending</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -68,7 +68,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ApprovedReimbursementServlet</servlet-name>
-    <url-pattern>/approvedreimbursements</url-pattern>
+    <url-pattern>/approved</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -79,7 +79,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>DeniedReimbursementServlet</servlet-name>
-    <url-pattern>/deniedreimbursements</url-pattern>
+    <url-pattern>/denied</url-pattern>
   </servlet-mapping>
   
   <servlet>
