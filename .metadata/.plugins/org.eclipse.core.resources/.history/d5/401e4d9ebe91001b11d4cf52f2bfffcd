@@ -1,0 +1,74 @@
+package com.ed.models;
+
+public class Reimbursements {
+	private int id;
+	private String reason;
+	private double amount;
+	private boolean pending;
+	private boolean approved;
+	private boolean denied;
+
+	public Reimbursements() {
+		super();
+	}
+	
+	public Reimbursements(int id, String reason, double amount, boolean pending, boolean approved, boolean denied) {
+		this.id = id;
+		this.reason = reason;
+		this.amount = amount;
+		this.pending = pending;
+		this.approved = approved;
+		this.denied = denied;
+	}
+
+	public int getID() {
+		return id;
+	}
+
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public boolean isPending() {
+		return pending;
+	}
+
+	public void setPending(boolean pending) {
+		this.pending = pending;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+
+	public boolean isDenied() {
+		return denied;
+	}
+
+	public void setDenied(boolean denied) {
+		this.denied = denied;
+	}
+	
+	
+
+}

@@ -1,0 +1,34 @@
+package com.ed.daos;
+
+import java.util.List;
+
+import com.ed.models.Employee;
+import com.ed.utils.ConnectionUtil;
+
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+	@Override
+	public List<Employee> getEmployees() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Employee getEmployeeFromID(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Employee getEmployeeFromID(int employeeID, ConnectionUtil con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int createEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

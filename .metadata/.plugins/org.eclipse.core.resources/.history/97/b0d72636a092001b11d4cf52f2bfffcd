@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Employee Login Page</title>
+</head>
+<body>
+<div class="container">
+		<h1>Expense Reimbursement System</h1>
+		<form id="userlogin" action="homelogin" method="post">
+			<label>Username:</label> <br>
+			<input type="text" name="username"/>
+			<br>
+			<label>Password:</label> <br>
+			<input type="password" name="password"/>
+			<br>
+			<input type=submit name=btn id="submit" value="Login"/>
+
+		</form>
+	</div>
+
+</body>
+</html>

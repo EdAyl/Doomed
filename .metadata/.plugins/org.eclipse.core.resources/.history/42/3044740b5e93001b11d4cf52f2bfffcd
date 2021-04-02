@@ -1,0 +1,73 @@
+let pendingChecked = false;
+let approvedChecked = false;
+let deniedChecked = false;
+
+let url = "http://localhost:8081/revpro1/allReqs";
+function setUrl() {
+	if (pendingChecked && pendingChecked) {
+		url = "http://localhost:8081/revpro1/pending";
+	} else if (approvedChecked && approvedChecked) {
+		url = "http://localhost:8081/revpro1/approved";
+	}else if (deniedChecked && deniedChecked) {
+		url = "http://localhost:8081/revpro1/denied";
+	} else {
+		url = "http://localhost:8081/revpro1/all";
+	}
+}
+
+document.getElementById("pending").addEventListener("change", function() {
+	pendingChecked = this.checked;
+	setUrl();
+	sendAjaxGet(url, display);
+});
+
+document.getElementById("approved").addEventListener("change", function() {
+	approvedChecked = this.checked;
+	setUrl();
+	sendAjaxGet(url, display);
+});
+
+
+document.getElementById("denied").addEventListener("change", function() {
+	approvedDenied = this.checked;
+	setUrl();
+	sendAjaxGet(url, display);
+});
+
+
+function sendAjaxGet(url, func) {
+	let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+	xhr.onreadystatechange = function() {
+		if (this.readyState==4 && this.status==200) {
+			func(this);
+		}
+	}
+	xhr.open("GET", url);
+	xhr.send();
+}
+
+sendAjaxGet(url, display);
+
+function display(xhr) {
+	requests = JSON.parse(xhr.responseText);
+	requestArr = requests.requests;
+	let table = document.getElementById("reimbursementTable");
+	table.removeChild(document.getElementById("reimbursementTableBody"));
+	let newBody = document.createElement("tbody");
+	newBody.setAttribute("id", "reimbursementTableBody");
+	table.appendChild(newBody);
+	for (i in requestArr) {
+		let newRow = document.createElement("tr");
+		if (requestArr[i].manager) {
+			man = `${requestArr[i].manager.firstname} ${requestArr[i].manager.lastname}`;
+		} else {
+			man = "n/a";
+		}
+		newRow.innerHTML = 
+			`<td>${requestArr[i].id}</td>
+			<td>${requestArr[i].status}</td> 
+			<td>${requestArr[i].amount}</td> 
+			<td>${man}</td>`;
+		newBody.appendChild(newRow);
+	}
+}

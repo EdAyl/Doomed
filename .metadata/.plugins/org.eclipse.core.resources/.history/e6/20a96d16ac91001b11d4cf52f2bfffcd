@@ -1,0 +1,19 @@
+package com.ed.daos;
+
+import java.util.List;
+
+import com.ed.models.Reimbursements;
+import com.ed.utils.ConnectionUtil;
+
+public interface ReimbursementsDAO {
+	List<Reimbursements> getRequests();
+	Reimbursements getRequestByID(int id);
+	Reimbursements getRequestByID(int id, ConnectionUtil con);
+	List<Reimbursements> getPendingRequests();
+	List<Reimbursements> getResolvedRequests();
+	List<Reimbursements> getRequestsFromEmployeeID(int employeeID);
+	List<Reimbursements> getPendingRequestsFromEmployeeID(int employeeID);
+	List<Reimbursements> getResolvedRequestsFromEmployeeID(int employeeID);
+	List<Reimbursements> getDeniedRequestsFromEmployeeID(int employeeID);
+	void addRequest(Reimbursements r);
+}

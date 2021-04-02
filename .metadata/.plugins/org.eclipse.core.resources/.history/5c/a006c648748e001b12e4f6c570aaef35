@@ -1,0 +1,25 @@
+package com.ed.models;
+
+public class Employee {
+	private int id;
+	private String fName;
+	private String lName;
+	private String username;
+	private String password;
+	private boolean isManager;
+
+	public boolean loggedIn;
+	
+	public Employee() {
+		super();
+	}
+	
+	public Employee(int id, String fName, String lName, String username, String password, boolean isManager) {
+		this.id = id;
+		this.fName = fName;
+		this.lName = lName;
+		this.username = username;
+		this.
+		this.
+	}
+}

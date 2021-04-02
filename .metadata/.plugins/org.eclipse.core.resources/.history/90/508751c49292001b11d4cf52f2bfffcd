@@ -1,0 +1,161 @@
+package com.ed.daos;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
+
+import com.ed.models.Employee;
+import com.ed.models.Reimbursements;
+import com.ed.utils.ConnectionUtil;
+
+public class ReimbursementsDAOImpl implements ReimbursementsDAO {
+	private static Logger log = Logger.getRootLogger();
+
+	public List<Reimbursements> getReimbursements(String db) {
+		List<Reimbursements> reimbursementsList = new ArrayList<>();
+		ResultSet rs = null;
+		try(Connection con = ConnectionUtil.getConnection();
+				Statement s = con.createStatement();){
+					rs = s.executeQuery(db);
+					while (rs.next()) {
+						Reimbursements r = populateReimbursements(rs, con);
+						reimbursementsList.add(r);
+					}
+				} catch (SQLException e) {
+					log.error("SQL Exception error",e);
+				} finally {
+					if (rs!=null) {
+						try {
+							rs.close();
+						} catch (SQLException e) {
+							log.error("closing failed",e);
+						}
+					}
+				}
+		return reimbursementsList;
+	}
+	
+	@Override
+	public List<Reimbursements> getReimbursements(){
+		return getReimbursements("SELECT * FROM reimbursements.reimbursementrequests");
+	}
+
+	@Override
+	public Reimbursements getReimbursementByID(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reimbursements getReimbursementByID(int id, Connection con) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reimbursements> getPendingReimbursements() {
+		return getReimbursements("SELECT * FROM reimbursements.reimbursementrequests WHERE ispending = TRUE");
+	}
+
+	@Override
+	public List<Reimbursements> getResolvedReimbursements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reimbursements> getReimbursementFromEmployeeID(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reimbursements> getPendingReimbursementsFromEmployeeID(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reimbursements> getResolvedReimbursementsFromEmployeeID(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reimbursements> getDeniedReimbursementsFromEmployeeID(int employeeID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addReimbursement(Reimbursements r) {
+		r.setReimbursementID(getNextID());
+		String sql = "INSERT INTO reimbursements.reimbursementrequests(reimbursementid, reason, amount, accountid, pending, approved, denied) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+			ps.setInt(1,  r.getReimbursementID());
+			ps.setString(2,  r.getReason());
+			ps.setDouble(3, r.getAmount());
+			Employee emp = new Employee();
+			int accountID = emp.getAccountID();
+			ps.setInt(4,  accountID);
+			ps.setBoolean(5, r.isPending());
+			ps.setBoolean(6, r.isApproved());
+			ps.setBoolean(7,  r.isDenied());
+			ps.executeQuery();
+		}catch (SQLException e) {
+			log.error("SQL exception", e);
+		}
+	}
+	
+	private int getNextID() {
+		int nextID = 0;
+		ResultSet rs = null;
+		try (Connection con = ConnectionUtil.getConnection(); Statement s = con.createStatement();){
+			rs = s.executeQuery("SELECT MAX(reimbursementid) FROM reimbursements.reimbursementrequests");
+			if (rs.next()) {
+				nextID = rs.getInt(1) + 1;
+			}
+		}catch(SQLException e) {
+			log.error("SQL Exception",e);
+		}finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}catch (SQLException e) {
+					log.error("Closing failed",e);
+				}
+			}
+		}
+		return nextID;
+	}
+	
+	private Reimbursements populateReimbursements(ResultSet rs, Connection con) throws SQLException {
+		int reimbursementID = rs.getInt("reimbursementid");
+		String reason = rs.getString("reason");
+		Double amount = rs.getDouble("amount");
+		int accountID = rs.getInt("accountid");
+		boolean pending = rs.getBoolean("pending");
+		boolean approved = rs.getBoolean("approved");
+		boolean denied = rs.getBoolean("denied");
+		EmployeeDAO ed = new EmployeeDAOImpl();
+		Employee e = ed.getEmployeeFromID(accountID, con);
+		
+		Reimbursements r = new Reimbursements();
+		r.setReimbursementID(reimbursementID);
+		r.setReason(reason);
+		r.setAmount(amount);
+		r.setPending(pending);
+		r.setApproved(approved);
+		r.setDenied(denied);
+		r.setEmployee(e);
+		return r;
+	}
+
+}

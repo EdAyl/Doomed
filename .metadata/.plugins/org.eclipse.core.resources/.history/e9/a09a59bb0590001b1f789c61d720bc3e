@@ -1,0 +1,11 @@
+package com.ed.daos;
+
+import java.util.List;
+
+import com.ed.models.Employee;
+
+public interface EmployeeDAO {
+	public List<Employee> getEmployees();
+	Employee getEmployeeFromId(int id);
+	public int createEmployee(Employee employee);
+}

@@ -1,0 +1,13 @@
+INDEX VERSION 1.131+C:\Users\sting\Documents\Revature\ProjectProper\.metadata\.plugins\org.eclipse.jdt.core
+73802215.index
+3233400504.index
+27758171.index
+691915086.index
+1897853004.index
+4153394079.index
+3773898172.index
+3179171581.index
+3109378044.index
+2055419519.index
+3171293332.index
+2601808873.index

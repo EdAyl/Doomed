@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.ed.utils.ConnectionUtil"/>
+    <fullyQualifiedTypeName name="java.util.logging.Logger"/>
+    <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+    <fullyQualifiedTypeName name="java.sql.Connection"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+    <fullyQualifiedTypeName name="com.ed.daos.ReimbursementsDAO"/>
+    <fullyQualifiedTypeName name="com.ed.daos.ReimbursementsDAOImpl"/>
+    <fullyQualifiedTypeName name="com.ed.models.Reimbursements"/>
+    <fullyQualifiedTypeName name="com.ed.models.Employee"/>
+    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAOImpl"/>
+    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAO"/>
+    <fullyQualifiedTypeName name="com.ed.utils.User"/>
+</qualifiedTypeNameHistroy>
