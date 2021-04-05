@@ -13,8 +13,9 @@
     <fullyQualifiedTypeName name="com.ed.daos.ReimbursementsDAO"/>
     <fullyQualifiedTypeName name="com.ed.daos.ReimbursementsDAOImpl"/>
     <fullyQualifiedTypeName name="com.ed.models.Reimbursements"/>
-    <fullyQualifiedTypeName name="com.ed.models.Employee"/>
-    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAOImpl"/>
-    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAO"/>
     <fullyQualifiedTypeName name="com.ed.utils.User"/>
+    <fullyQualifiedTypeName name="org.postgresql.Driver"/>
+    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAO"/>
+    <fullyQualifiedTypeName name="com.ed.daos.EmployeeDAOImpl"/>
+    <fullyQualifiedTypeName name="com.ed.models.Employee"/>
 </qualifiedTypeNameHistroy>

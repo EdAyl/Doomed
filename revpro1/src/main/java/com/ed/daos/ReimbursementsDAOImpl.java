@@ -19,29 +19,28 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 	private List<Reimbursements> getReimbursements(String db) {
 		List<Reimbursements> reimbursementsList = new ArrayList<>();
 		ResultSet rs = null;
-		try(Connection con = ConnectionUtil.getConnection();
-				Statement s = con.createStatement();){
-					rs = s.executeQuery(db);
-					while (rs.next()) {
-						Reimbursements r = populateReimbursements(rs, con);
-						reimbursementsList.add(r);
-					}
+		try (Connection con = ConnectionUtil.getConnection(); Statement s = con.createStatement();) {
+			rs = s.executeQuery(db);
+			while (rs.next()) {
+				Reimbursements r = populateReimbursements(rs, con);
+				reimbursementsList.add(r);
+			}
+		} catch (SQLException e) {
+			log.error("SQL Exception error", e);
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
 				} catch (SQLException e) {
-					log.error("SQL Exception error",e);
-				} finally {
-					if (rs!=null) {
-						try {
-							rs.close();
-						} catch (SQLException e) {
-							log.error("closing failed",e);
-						}
-					}
+					log.error("closing failed", e);
 				}
+			}
+		}
 		return reimbursementsList;
 	}
-	
+
 	@Override
-	public List<Reimbursements> getReimbursements(){
+	public List<Reimbursements> getReimbursements() {
 		return getReimbursements("SELECT * FROM reimbursements.reimbursementrequests");
 	}
 
@@ -50,19 +49,19 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 		Reimbursements re = null;
 		String sql = "SELECT * FROM reimbursements.reimbursementrequests WHERE reimbursementid = ?";
 		ResultSet rs = null;
-		try(Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, reimbursementID);
 			rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				re = populateReimbursements(rs, con);
 			}
-		}catch (SQLException e) {
-			log.error("SQL Exception",e);
-		}finally {
+		} catch (SQLException e) {
+			log.error("SQL Exception", e);
+		} finally {
 			try {
 				rs.close();
-			} catch(SQLException e) {
-				log.error("closer failed",e);
+			} catch (SQLException e) {
+				log.error("closer failed", e);
 			}
 		}
 		return re;
@@ -73,7 +72,7 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 		Reimbursements re = null;
 		String sql = "SELECT * FROM reimbursements.reimbursementrequests WHERE reimbursementid = ?";
 		ResultSet rs = null;
-		try(PreparedStatement ps = con.prepareStatement(sql);){
+		try (PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, reimbursementID);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -86,7 +85,7 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 				boolean isDenied = rs.getBoolean("denied");
 				EmployeeDAO ed = new EmployeeDAOImpl();
 				Employee e = ed.getEmployeeFromID(accountID, con);
-				
+
 				re = new Reimbursements();
 				re.setReimbursementID(reID);
 				re.setReason(reason);
@@ -96,14 +95,14 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 				re.setApproved(isApproved);
 				re.setDenied(isDenied);
 			}
-		}catch(SQLException e) {
-			log.error("SQL Exception",e);
-		}finally {
-			if(rs != null) {
+		} catch (SQLException e) {
+			log.error("SQL Exception", e);
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
-				}catch (SQLException e) {
-					log.error("Closer failed",e);
+				} catch (SQLException e) {
+					log.error("Closer failed", e);
 				}
 			}
 		}
@@ -120,31 +119,31 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 		return getReimbursements("SELECT * FROM reimbursements.reimbursementrequests WHERE isapproved = TRUE");
 
 	}
-	
+
 	@Override
 	public List<Reimbursements> getDeniedReimbursements() {
 		return getReimbursements("SELECT * FROM reimbursements.reimbursementrequests WHERE isdenied = TRUE");
 
 	}
-	
-	private List<Reimbursements> getReimbursementFromEmployeeID(int employeeID, String sql){
+
+	private List<Reimbursements> getReimbursementFromEmployeeID(int employeeID, String sql) {
 		List<Reimbursements> re = new ArrayList<>();
 		ResultSet rs = null;
-		try(Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
 			ps.setInt(1, employeeID);
 			rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				Reimbursements reim = populateReimbursements(rs, con);
 				re.add(reim);
 			}
-		}catch(SQLException e) {
-			log.error("SQL Exception",e);
-		}finally {
-			if(rs != null) {
+		} catch (SQLException e) {
+			log.error("SQL Exception", e);
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
-				}catch (SQLException e) {
-					log.error("Closer failed",e);
+				} catch (SQLException e) {
+					log.error("Closer failed", e);
 				}
 			}
 		}
@@ -153,7 +152,8 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 
 	@Override
 	public List<Reimbursements> getReimbursementFromEmployeeID(int employeeID) {
-		return getReimbursementFromEmployeeID(employeeID, "SELECT * FROM reimbursements.reimbursementrequests WHERE accountid = ?");
+		return getReimbursementFromEmployeeID(employeeID,
+				"SELECT * FROM reimbursements.reimbursementrequests WHERE accountid = ?");
 	}
 
 	@Override
@@ -175,49 +175,76 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 	}
 
 	@Override
+	public Boolean approveReimbursement(Reimbursements r) {
+		String sql = "UPDATE reimbursements.reimbursementrequests SET pending = FALSE, approved = TRUE, denied = FALSE WHERE reimbursementid = ?";
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+			ps.setInt(1, r.getReimbursementID());
+			ps.executeUpdate();
+			return true;
+		}catch(SQLException e) {
+			log.error("SQL Exception",e);
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean denyReimbursement(Reimbursements r) {
+		String sql = "UPDATE reimbursements.reimbursementrequests SET pending = FALSE, approved = false, denied = TRUE WHERE reimbursementid = ?";
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+			ps.setInt(1, r.getReimbursementID());
+			ps.executeUpdate();
+			return true;
+		}catch(SQLException e) {
+			log.error("SQL Exception",e);
+			System.out.println(e);
+		}
+		return false;
+	}
+
+	@Override
 	public void addReimbursement(Reimbursements r, Employee em) {
 		r.setReimbursementID(getNextID());
 		String sql = "INSERT INTO reimbursements.reimbursementrequests(reimbursementid, reason, amount, accountid, pending, approved, denied) VALUES (?, ?, ?, ?, ?, ?, ?);";
-		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);){
+		try (Connection con = ConnectionUtil.getConnection(); PreparedStatement ps = con.prepareStatement(sql);) {
 			System.out.println("inside add try");
 
-			ps.setInt(1,  r.getReimbursementID());
-			ps.setString(2,  r.getReason());
+			ps.setInt(1, r.getReimbursementID());
+			ps.setString(2, r.getReason());
 			ps.setDouble(3, r.getAmount());
 			int accountID = em.getAccountID();
 			ps.setInt(4, accountID);
 			ps.setBoolean(5, r.isPending());
 			ps.setBoolean(6, r.isApproved());
-			ps.setBoolean(7,  r.isDenied());
+			ps.setBoolean(7, r.isDenied());
 			System.out.println(ps);
 			ps.executeQuery();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			log.error("SQL exception", e);
 		}
 	}
-	
+
 	private int getNextID() {
 		int nextID = 0;
 		ResultSet rs = null;
-		try (Connection con = ConnectionUtil.getConnection(); Statement s = con.createStatement();){
+		try (Connection con = ConnectionUtil.getConnection(); Statement s = con.createStatement();) {
 			rs = s.executeQuery("SELECT MAX(reimbursementid) FROM reimbursements.reimbursementrequests");
 			if (rs.next()) {
 				nextID = rs.getInt(1) + 1;
 			}
-		}catch(SQLException e) {
-			log.error("SQL Exception",e);
-		}finally {
+		} catch (SQLException e) {
+			log.error("SQL Exception", e);
+		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
-				}catch (SQLException e) {
-					log.error("Closing failed",e);
+				} catch (SQLException e) {
+					log.error("Closing failed", e);
 				}
 			}
 		}
 		return nextID;
 	}
-	
+
 	private Reimbursements populateReimbursements(ResultSet rs, Connection con) throws SQLException {
 		int reimbursementID = rs.getInt("reimbursementid");
 		String reason = rs.getString("reason");
@@ -228,7 +255,7 @@ public class ReimbursementsDAOImpl implements ReimbursementsDAO {
 		boolean denied = rs.getBoolean("denied");
 		EmployeeDAO ed = new EmployeeDAOImpl();
 		Employee e = ed.getEmployeeFromID(accountID, con);
-		
+
 		Reimbursements r = new Reimbursements();
 		r.setReimbursementID(reimbursementID);
 		r.setReason(reason);

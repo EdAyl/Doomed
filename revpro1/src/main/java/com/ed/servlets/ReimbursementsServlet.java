@@ -34,7 +34,9 @@ public class ReimbursementsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("here");
 		if (!User.isNull() && !User.isManager()) {
+			System.out.println("good here");
 			ReimbursementsDAO rd = new ReimbursementsDAOImpl();
 			ObjectMapper om = new ObjectMapper();
 			PrintWriter out = response.getWriter();
@@ -42,11 +44,22 @@ public class ReimbursementsServlet extends HttpServlet {
 			String reimbursementString = om.writeValueAsString(reimbursements);
 			reimbursementString = "{\"reimbursements\":"+reimbursementString+"}";
 			out.print(reimbursementString);
-		} else {
+		} else if(!User.isNull() && User.isManager()){
+			System.out.println("good here");
+			ReimbursementsDAO rd = new ReimbursementsDAOImpl();
+			ObjectMapper om = new ObjectMapper();
+			PrintWriter out = response.getWriter();
+			List<Reimbursements> reimbursements = rd.getReimbursements();
+			String reimbursementString = om.writeValueAsString(reimbursements);
+			reimbursementString = "{\"reimbursements\":"+reimbursementString+"}";
+			out.print(reimbursementString);
+		}else{
+			System.out.println("bad here");
 			RequestDispatcher rq = request.getRequestDispatcher("Login.html");
 			rq.forward(request, response);
 		}
-	}
+			
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

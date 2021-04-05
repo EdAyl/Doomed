@@ -17,5 +17,7 @@ public interface ReimbursementsDAO {
 	List<Reimbursements> getPendingReimbursementsFromEmployeeID(int employeeID);
 	List<Reimbursements> getApprovedReimbursementsFromEmployeeID(int employeeID);
 	List<Reimbursements> getDeniedReimbursementsFromEmployeeID(int employeeID);
+	Boolean approveReimbursement(Reimbursements r);
+	Boolean denyReimbursement(Reimbursements r);
 	void addReimbursement(Reimbursements r, Employee e);
 }

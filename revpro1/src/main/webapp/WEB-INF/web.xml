@@ -124,4 +124,14 @@
     <servlet-name>NameServlet</servlet-name>
     <url-pattern>/name</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReimbursementDecision</display-name>
+    <servlet-name>ReimbursementDecision</servlet-name>
+    <servlet-class>com.ed.servlets.ReimbursementDecision</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReimbursementDecision</servlet-name>
+    <url-pattern>/decision</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Viewing Reimbursements</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<div id="EmployeeNavBar" class="container">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		  <a class="navbar-brand" href="/revpro1/home">ERS</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="/revpro1/home">Home</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="/revpro1/reimbursements">View Reimbursements</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="/revpro1/profile">View Profile</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="/revpro1/profile">Update Profile</a>
+			  </li>
+			  <li class="nav-item">
+		        <a class="nav-link" href="/revpro1/logout">Logout</a>
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
+	</div>
+	<div class="container">
+		<input type="checkbox" id="pending" name="requesttype">pending
+		<input type="checkbox" id="approved" name="requesttype">approved
+		<input type="checkbox" id="denied" name="requesttype">denied		
+				
+		<br>
+        <table id="reimbursementTable" class="table table-striped table-dark">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Pending</th>
+		      <th scope="col">Approved</th>
+		      <th scope="col">Denied</th>
+		      <th scope="col">Amount</th>
+		      <th scope="col">Reason</th>
+		    </tr>
+		  </thead>
+		  <tbody id="reimbursementTableBody">
+		    <!--<th scope="row">1</th>-->
+		  </tbody>
+		</table>
+    </div>
+    <script>let pendingChecked = false;
+    let approvedChecked = false;
+    let deniedChecked = false;
+
+    let url = "http://localhost:8081/revpro1/allreimbursements";
+    function setUrl() {
+    	if (pendingChecked && pendingChecked) {
+    		url = "http://localhost:8081/revpro1/pending";
+    	} else if (approvedChecked && approvedChecked) {
+    		url = "http://localhost:8081/revpro1/approved";
+    	}else if (deniedChecked && deniedChecked) {
+    		url = "http://localhost:8081/revpro1/denied";
+    	} else {
+    		url = "http://localhost:8081/revpro1/allreimbursements";
+    	}
+    }
+
+    document.getElementById("pending").addEventListener("change", function() {
+    	pendingChecked = this.checked;
+    	setUrl();
+    	sendAjaxGet(url, display);
+    });
+
+    document.getElementById("approved").addEventListener("change", function() {
+    	approvedChecked = this.checked;
+    	setUrl();
+    	sendAjaxGet(url, display);
+    });
+
+
+    document.getElementById("denied").addEventListener("change", function() {
+    	approvedDenied = this.checked;
+    	setUrl();
+    	sendAjaxGet(url, display);
+    });
+
+
+    function sendAjaxGet(url, func) {
+    	let xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft.HTTPRequest");
+    	xhr.onreadystatechange = function() {
+    		if (this.readyState==4 && this.status==200) {
+    			func(this);
+    		}
+    	}
+    	xhr.open("GET", url);
+    	xhr.send();
+    }
+
+    sendAjaxGet(url, display);
+
+    function display(xhr) {
+    	console.log(xhr.responseText);
+    	requests = JSON.parse(xhr.responseText);
+    	//console.log(requests);
+    	requestArr = requests.reimbursements;
+    	//console.log(requestArr);
+    	let table = document.getElementById("reimbursementTable");
+    	table.removeChild(document.getElementById("reimbursementTableBody"));
+    	let newBody = document.createElement("tbody");
+    	newBody.setAttribute("id", "reimbursementTableBody");
+    	table.appendChild(newBody);
+    	for (i in requestArr) {
+    		let newRow = document.createElement("tr");
+    		
+    		newRow.innerHTML = 
+    			`<td>${requestArr[i].reimbursementID}</td>
+    			<td>${requestArr[i].pending}</td>
+    			<td>${requestArr[i].approved}</td>
+    			<td>${requestArr[i].denied}</td> 
+    			<td>${requestArr[i].amount}</td>
+    			<td>${requestArr[i].reason}</td>`;
+    		newBody.appendChild(newRow);
+    	}
+    }</script>
+</body>
+</html>
